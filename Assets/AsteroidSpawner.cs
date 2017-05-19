@@ -7,14 +7,10 @@ public class AsteroidSpawner : MonoBehaviour {
 
     public GameObject player;
 
-    private Vector3 middlePoint;
-
     public List<GameObject> asteroidAssets;
-    private List<GameObject> asteroids = new List<GameObject>();
 
 	// Use this for initialization
 	void Start () {
-        middlePoint = player.transform.position;
         for(int i = 0; i < maxCountAsteroids; i++){
             spawnAsteroids();
         }
@@ -34,6 +30,6 @@ public class AsteroidSpawner : MonoBehaviour {
 
         // Spawn that shit
         GameObject go = Instantiate(randomGO, player.transform.position, Quaternion.identity);
-        asteroids.Add(go);
+        go.transform.SetParent(gameObject.transform);
     }
 }
