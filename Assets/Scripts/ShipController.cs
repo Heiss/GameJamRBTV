@@ -9,7 +9,8 @@ public class ShipController : MonoBehaviour {
     public GameObject shot;
     public Transform shotSpawn;
     public float fireRate = 0.3F;
-  
+    public GameObject explosionEffectPrefab;
+
 
 
     private Rigidbody rb;
@@ -31,9 +32,6 @@ public class ShipController : MonoBehaviour {
         GameObject go = GameObject.Find("Background");
         area = new Bounds(Vector3.zero, (new Vector3(go.transform.localScale.x, 100, go.transform.localScale.y)));
     }
-
-
-
 
 
     void Update()
@@ -104,5 +102,36 @@ public class ShipController : MonoBehaviour {
 
         }
 
+    }
+
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.name.StartsWith("Asteroid"))
+        {
+            // Destroy asteroid and the ship
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        explode();
+    }
+
+
+    // Explode effect
+    void explode()
+    {
+        // erst erstellen, damit wir die Explosion auch sehen und verwenden können
+        GameObject go = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+        go.transform.SetParent(GameObject.Find("Explosions").transform);
+
+        // hier wird die Explosion abgespielt
+        ParticleSystem ps = go.GetComponent<ParticleSystem>();
+        ps.Play();
+        // die Explosion wird zweimal ausgeführt. Daher die Hälfte.
+        Destroy(go, ps.main.duration / 2);
     }
 }

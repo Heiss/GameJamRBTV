@@ -67,4 +67,6 @@ public class AsteroidDestroy : MonoBehaviour {
             Debug.Log("You dieded.");
         }
     }
+
+ 
 }
