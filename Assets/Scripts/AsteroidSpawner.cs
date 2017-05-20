@@ -45,6 +45,8 @@ public class AsteroidSpawner : MonoBehaviour {
         // Spawn that shit
         GameObject go = Instantiate(randomGO, findSpawnPoint(), Quaternion.identity);
         go.transform.SetParent(gameObject.transform);
+
+        go.SendMessage("ForceToCenter");
     }
 
     Vector3 findSpawnPoint()
