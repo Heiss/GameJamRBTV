@@ -10,6 +10,28 @@ public class ShipController : MonoBehaviour {
     private Rigidbody rb;
     private Transform tr;
 
+
+    public GameObject shot;
+    public Transform shotSpawn;
+    public float fireRate = 0.3F;
+
+    private float nextFire = 0.5F;
+
+    void Update()
+    {
+        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        {
+            nextFire = Time.time + fireRate;
+
+            //Instantiate two new laser
+
+            Instantiate(shot, shotSpawn.GetChild(0).position, shotSpawn.rotation);
+            Instantiate(shot, shotSpawn.GetChild(1).position, shotSpawn.rotation);
+
+        }
+    }
+
+
     // Initialize ship
     void Start()
     {
@@ -25,7 +47,7 @@ public class ShipController : MonoBehaviour {
         float moveAxis = Input.GetAxis("Horizontal");
 
         // Rotate the ship
-        Vector3 rotation = new Vector3(0.0f, moveAxis, 0.0f);
+        Vector3 rotation = new Vector3(0.0f, speed/2*moveAxis, 0.0f);
         Quaternion deltaRotation = Quaternion.Euler(rotation);
         rb.MoveRotation(rb.rotation * deltaRotation);
 
@@ -34,7 +56,6 @@ public class ShipController : MonoBehaviour {
             moveFrontal * Mathf.Sin(tr.rotation.ToEuler().y), 
             0.0f,
             moveFrontal * Mathf.Cos(tr.rotation.ToEuler().y));
-        print(tr.rotation.ToEuler().y);
         rb.velocity = movement * speed;
         
         
