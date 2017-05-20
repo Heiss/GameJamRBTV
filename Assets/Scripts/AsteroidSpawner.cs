@@ -11,8 +11,8 @@ public class AsteroidSpawner : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        GameObject go = GameObject.Find("Background");
-        area = new Bounds(origin, (new Vector3(go.transform.localScale.x, 0, go.transform.localScale.y)));
+        Vector3 vec = GetComponent<BoxCollider>().size;
+        area = new Bounds(origin, vec);
 	}
 	
 	// Update is called once per frame
@@ -45,6 +45,8 @@ public class AsteroidSpawner : MonoBehaviour {
         // Spawn that shit
         GameObject go = Instantiate(randomGO, findSpawnPoint(), Quaternion.identity);
         go.transform.SetParent(gameObject.transform);
+
+        go.SendMessage("ForceToCenter");
     }
 
     Vector3 findSpawnPoint()
@@ -58,9 +60,11 @@ public class AsteroidSpawner : MonoBehaviour {
 
         if(area.IntersectRay(ray, out distance))
         {
-            return ray.GetPoint(distance);
+            Debug.DrawRay(Vector3.zero, direction * distance, Color.yellow, 2);
+            return ray.GetPoint(distance * 0.9f);
         }
 
-        return origin;
+        // hier wird explizit nicht zero genommen, da sonst vllt der erste Spawn fehlschlägt. Daher der äußerste Rand für solche Bugs!
+        return new Vector3(area.size.x * 0.9f, 0, 0);
     }
 }
