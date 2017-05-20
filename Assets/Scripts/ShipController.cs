@@ -11,7 +11,11 @@ public class ShipController : MonoBehaviour {
     public float fireRate = 0.3F;
     public GameObject explosionEffectPrefab;
 
-
+    public string fire;
+    public string spec;
+    public string horizontal;
+    public string vertical;
+    
 
     private Rigidbody rb;
     private Transform tr;
@@ -36,7 +40,7 @@ public class ShipController : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        if (Input.GetButton(fire) && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
 
@@ -53,8 +57,8 @@ public class ShipController : MonoBehaviour {
     void FixedUpdate () {
 
         // Get Keyboard Input
-        float moveFrontal = Input.GetAxis("Vertical");
-        float moveAxis = Input.GetAxis("Horizontal");
+        float moveFrontal = Input.GetAxis(vertical);
+        float moveAxis = Input.GetAxis(horizontal);
 
         // Rotate the ship
         Vector3 rotation = new Vector3(0.0f, speed/2*moveAxis, 0.0f);
