@@ -10,6 +10,8 @@ public class ShipController : MonoBehaviour {
     public Transform shotSpawn;
     public float fireRate = 0.3F;
     public GameObject explosionEffectPrefab;
+    public string specialItemName;
+    public GameObject specialItem;
 
     public string fire;
     public string spec;
@@ -35,6 +37,9 @@ public class ShipController : MonoBehaviour {
 
         GameObject go = GameObject.Find("Background");
         area = new Bounds(Vector3.zero, (new Vector3(go.transform.localScale.x, 100, go.transform.localScale.y)));
+
+        // No Item attached
+        specialItemName = "";
     }
 
 
@@ -52,6 +57,25 @@ public class ShipController : MonoBehaviour {
             Instantiate(shot, shotSpawn.GetChild(1).position, shotSpawn.rotation);
 
         }
+
+        if (Input.GetButton(spec))
+        {
+            Debug.Log("Special Attack");
+            
+
+            //Launch a special attack if you got an item
+            if (specialItemName == "PlasmaBomb")
+            {
+                this.PlantPlasmaBomb(); // BOOM!! =)
+            }
+
+        }
+    }
+
+    void PlantPlasmaBomb()
+    {
+        Instantiate(specialItem, gameObject.transform.position , shotSpawn.rotation);
+        this.specialItemName = "";
     }
 
 
@@ -61,7 +85,7 @@ public class ShipController : MonoBehaviour {
         // Get Keyboard Input
         float moveFrontal = Input.GetAxis(vertical);
         float moveAxis = Input.GetAxis(horizontal);
-
+        
         // Rotate the ship
         Vector3 rotation = new Vector3(0.0f, speed/2*moveAxis, 0.0f);
         Quaternion deltaRotation = Quaternion.Euler(rotation);
@@ -143,5 +167,11 @@ public class ShipController : MonoBehaviour {
         ps.Play();
         // die Explosion wird zweimal ausgeführt. Daher die Hälfte.
         Destroy(go, ps.main.duration / 2);
+    }
+
+    public void setSpecialItem(string itemName, GameObject item )
+    {
+        this.specialItem = item;
+        this.specialItemName = itemName;
     }
 }
