@@ -28,7 +28,7 @@ public class Menu : MonoBehaviour {
 
     public void LoadOn()
     {
-        SceneManager.LoadScene("Merge", LoadSceneMode.Additive);
+        SceneManager.LoadScene("Merge", LoadSceneMode.Single);
     }
 
     public void Exit()
