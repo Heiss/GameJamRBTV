@@ -26,14 +26,15 @@ public class AsteroidDestroy : MonoBehaviour {
     // Spawnt die Kinder-Asteroiden
     void spawnChildAsteroids()
     {
+        // eine explosion
+        explode();
+
         // falls dies der Fall, dann ist es der kleinste Asteroid
         if (childGO == null)
         {
             return;
         }
 
-        // eine explosion
-        explode();
         // je nachdem wie viele Kinderasteroiden erstellt werden sollen
         for (int i = 0; i < countChilds; i++)
         {
