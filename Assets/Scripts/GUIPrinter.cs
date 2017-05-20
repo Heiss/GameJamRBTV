@@ -16,7 +16,6 @@ public class GUIPrinter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-
         timer.text = "Zeit: " + System.Math.Round(Time.time, 2) + "s\n" + "Punktzahl: \n\tRot:" + punktZahl1 + " : Blau: " + punktZahl2;
     }
 
