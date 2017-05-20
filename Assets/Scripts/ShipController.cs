@@ -9,16 +9,30 @@ public class ShipController : MonoBehaviour {
     public GameObject shot;
     public Transform shotSpawn;
     public float fireRate = 0.3F;
-    public float xMax, xMin, zMax, zMin;
+    public GameObject explosionEffectPrefab;
+
 
 
     private Rigidbody rb;
     private Transform tr;
 
+    // Store the boundary of the area
+    private Bounds area;
 
-    
 
+    // Change fire rate (upgradey maybe)
     private float nextFire = 0.5F;
+
+    // Initialize ship
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        tr = GetComponent<Transform>();
+
+        GameObject go = GameObject.Find("Background");
+        area = new Bounds(Vector3.zero, (new Vector3(go.transform.localScale.x, 100, go.transform.localScale.y)));
+    }
+
 
     void Update()
     {
@@ -34,13 +48,6 @@ public class ShipController : MonoBehaviour {
         }
     }
 
-
-    // Initialize ship
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        tr = GetComponent<Transform>();
-    }
 
     // Update is called once per frame
     void FixedUpdate () {
@@ -62,16 +69,69 @@ public class ShipController : MonoBehaviour {
             moveFrontal * Mathf.Cos(tr.rotation.ToEuler().y));
         rb.velocity = movement * speed;
 
-        
-        // Check Boundary
-        if (tr.position.x > xMax || tr.position.x < xMin ||
-           tr.position.z > zMax || tr.position.z < zMin)
+
+        // Check Bounds
+        if (!area.Contains(this.transform.position))
         {
-            print(tr.position.x);
-            print(tr.position.z);
-            rb.velocity = -movement * speed;
+            //Store coordinates
+            float x = tr.position.x;
+            float y = tr.position.y;
+            float z = tr.position.z;
+            Quaternion rot = tr.rotation;
+
+            if (x > area.max.x)
+            {
+                tr.SetPositionAndRotation(new Vector3(area.min.x, y, tr.position.z), rot);
+            }
+
+            if(x < area.min.x)
+            {
+                tr.SetPositionAndRotation(new Vector3(area.max.x, y, tr.position.z), rot);
+            }
+            if (z > area.max.z)
+            {
+                tr.SetPositionAndRotation(new Vector3(tr.position.x, y, area.min.z), rot);
+            }
+
+            if (z < area.min.z)
+            {
+                tr.SetPositionAndRotation(new Vector3(tr.position.x, y, area.max.z), rot);
+            }
+
+
+
         }
 
+    }
 
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.name.StartsWith("Asteroid"))
+        {
+            // Destroy asteroid and the ship
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        explode();
+    }
+
+
+    // Explode effect
+    void explode()
+    {
+        // erst erstellen, damit wir die Explosion auch sehen und verwenden können
+        GameObject go = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+        go.transform.SetParent(GameObject.Find("Explosions").transform);
+
+        // hier wird die Explosion abgespielt
+        ParticleSystem ps = go.GetComponent<ParticleSystem>();
+        ps.Play();
+        // die Explosion wird zweimal ausgeführt. Daher die Hälfte.
+        Destroy(go, ps.main.duration / 2);
     }
 }
