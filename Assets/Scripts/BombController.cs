@@ -16,6 +16,7 @@ public class BombController : MonoBehaviour {
 	
         if(Time.fixedTime - initTime > 2.2)
         {
+            GetComponent<AudioSource>().Play();
             Destroy(gameObject);
         }
 	}
