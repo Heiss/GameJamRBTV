@@ -5,14 +5,14 @@ using UnityEngine;
 public class AsteroidSpawner : MonoBehaviour {
     public int maxCountAsteroids;
     public List<GameObject> asteroidAssets;
-    public Vector3[] playableArea = new Vector3[2];
 
     private Vector3 origin = Vector3.zero;
     private Bounds area;
 
     // Use this for initialization
     void Start () {
-        area = new Bounds(origin, (playableArea[1] - playableArea[0]) / 2);
+        GameObject go = GameObject.Find("Background");
+        area = new Bounds(origin, (new Vector3(go.transform.localScale.x, 0, go.transform.localScale.y)));
 	}
 	
 	// Update is called once per frame
