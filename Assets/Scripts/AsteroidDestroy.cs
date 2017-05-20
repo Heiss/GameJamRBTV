@@ -53,6 +53,7 @@ public class AsteroidDestroy : MonoBehaviour {
         // hier wird die Explosion abgespielt
         ParticleSystem ps = go.GetComponent<ParticleSystem>();
         ps.Play();
+
         // die Explosion wird zweimal ausgeführt. Daher die Hälfte.
         Destroy(go, ps.main.duration / 2);
     }
@@ -61,6 +62,9 @@ public class AsteroidDestroy : MonoBehaviour {
     {
         if (collision.gameObject.name.StartsWith("Laser"))
         {
+            AudioSource audio = GameObject.Find("ControllerAsteroid").GetComponent<AudioSource>();
+            audio.Play();
+
             Destroy(collision.gameObject);
             Destroy(gameObject);
         } else if(collision.gameObject.name.StartsWith("Ship"))

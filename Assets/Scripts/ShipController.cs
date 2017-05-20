@@ -45,6 +45,8 @@ public class ShipController : MonoBehaviour {
             nextFire = Time.time + fireRate;
 
             //Instantiate two new laser
+            AudioSource audio = GetComponent<AudioSource>();
+            audio.Play();
 
             Instantiate(shot, shotSpawn.GetChild(0).position, shotSpawn.rotation);
             Instantiate(shot, shotSpawn.GetChild(1).position, shotSpawn.rotation);
@@ -121,6 +123,10 @@ public class ShipController : MonoBehaviour {
 
     private void OnDestroy()
     {
+        // Destory Sound
+        AudioSource audio = GameObject.Find("ControllerAsteroid").GetComponents<AudioSource>()[1];
+        audio.Play();
+
         explode();
     }
 
