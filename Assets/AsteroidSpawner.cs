@@ -4,28 +4,25 @@ using UnityEngine;
 
 public class AsteroidSpawner : MonoBehaviour {
     public int maxCountAsteroids;
-
-    public GameObject origin;
-
     public List<GameObject> asteroidAssets;
     public Vector3[] playableArea = new Vector3[2];
+
+    private Vector3 origin = Vector3.zero;
     private Bounds area;
 
     // Use this for initialization
     void Start () {
-        area = new Bounds(new Vector3(0, 0, 0), (playableArea[1] - playableArea[0]) / 2);
-        for (int i = 0; i < maxCountAsteroids; i++){
-            spawnAsteroid();
-        }
+        area = new Bounds(origin, (playableArea[1] - playableArea[0]) / 2);
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        // check the bounds
+        // alle Asteroidenkinder überprüfen, ob sie in den Abmessungen sind.
 		for (int i = 0; i < transform.childCount; i++)
         {
             GameObject go = transform.GetChild(i).gameObject;
             
+            // wenn der asteroid nicht mehr in den Bounds ist, wird er zerstört
             if(!area.Contains(go.transform.position))
             {
                 Destroy(go);
@@ -56,7 +53,7 @@ public class AsteroidSpawner : MonoBehaviour {
         Vector3 direction = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
         direction.Normalize();
 
-        Ray ray = new Ray(origin.transform.position, direction);
+        Ray ray = new Ray(origin, direction);
         float distance = 0;
 
         if(area.IntersectRay(ray, out distance))
@@ -64,6 +61,6 @@ public class AsteroidSpawner : MonoBehaviour {
             return ray.GetPoint(distance);
         }
 
-        return origin.transform.position;
+        return origin;
     }
 }
