@@ -6,14 +6,17 @@ public class ShipController : MonoBehaviour {
 
     // Public Variables for optimization in Unity IDE
     public float speed;
+    public GameObject shot;
+    public Transform shotSpawn;
+    public float fireRate = 0.3F;
+    public float xMax, xMin, zMax, zMin;
+
 
     private Rigidbody rb;
     private Transform tr;
 
 
-    public GameObject shot;
-    public Transform shotSpawn;
-    public float fireRate = 0.3F;
+    
 
     private float nextFire = 0.5F;
 
@@ -51,14 +54,24 @@ public class ShipController : MonoBehaviour {
         Quaternion deltaRotation = Quaternion.Euler(rotation);
         rb.MoveRotation(rb.rotation * deltaRotation);
 
+       
         // Calculate direction and move the ship
         Vector3 movement = new Vector3(
             moveFrontal * Mathf.Sin(tr.rotation.ToEuler().y), 
             0.0f,
             moveFrontal * Mathf.Cos(tr.rotation.ToEuler().y));
         rb.velocity = movement * speed;
+
         
-        
-        
+        // Check Boundary
+        if (tr.position.x > xMax || tr.position.x < xMin ||
+           tr.position.z > zMax || tr.position.z < zMin)
+        {
+            print(tr.position.x);
+            print(tr.position.z);
+            rb.velocity = -movement * speed;
+        }
+
+
     }
 }
