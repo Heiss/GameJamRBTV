@@ -20,7 +20,14 @@ public class AsteroidDestroy : MonoBehaviour {
     // Falls ein Asteroid zerstört wird, so soll er Kinder spawnen lassen
     private void OnDestroy()
     {
+        //spawnChildAsteroids();
+    }
+
+    // Falls ein Asteroid zerstört wird, so soll er Kinder spawnen lassen
+    public void destroyMessage()
+    {
         spawnChildAsteroids();
+        Destroy(gameObject);
     }
 
     // Spawnt die Kinder-Asteroiden
@@ -74,7 +81,8 @@ public class AsteroidDestroy : MonoBehaviour {
             GameObject.Find("GUIController").SendMessage("increasePointsForPlayer", player);
 
             Destroy(collision.gameObject);
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            this.destroyMessage();
         } else if(collision.gameObject.name.StartsWith("Ship"))
         {
             Debug.Log("You dieded.");

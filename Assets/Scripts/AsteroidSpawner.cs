@@ -25,7 +25,8 @@ public class AsteroidSpawner : MonoBehaviour {
             // wenn der asteroid nicht mehr in den Bounds ist, wird er zerstört
             if(!area.Contains(go.transform.position))
             {
-                Destroy(go);
+                //Destroy(go);
+                go.SendMessage("destroyMessage");
             }
         }
 

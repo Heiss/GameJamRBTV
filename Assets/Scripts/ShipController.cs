@@ -148,8 +148,8 @@ public class ShipController : MonoBehaviour {
     private void OnDestroy()
     {
         // Destory Sound
-        AudioSource audio = GameObject.Find("ControllerAsteroid").GetComponents<AudioSource>()[1];
-        audio.Play();
+        //AudioSource audio = GameObject.Find("ControllerAsteroid").GetComponents<AudioSource>()[1];
+        //audio.Play();
 
         explode();
     }

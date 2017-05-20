@@ -24,7 +24,7 @@ public class BombController : MonoBehaviour {
 
     void OnTriggerStay(Collider collision)
     {
-        if ((Time.fixedTime - initTime > 2))
+        if ((Time.fixedTime - initTime > 2) && (collision.gameObject.name.StartsWith("Asteroid") || collision.gameObject.name.StartsWith("Ship")))
         {
             Destroy(collision.gameObject);
         }

@@ -34,7 +34,7 @@ public class PowerUpGeneratorController : MonoBehaviour {
         if(transform.childCount < maxCountPowerup)
         {
             // Don't spam Powerups
-            int rand = Random.Range(0, 10000);
+            int rand = Random.Range(0, 1000);
             if(rand < 6)
             {
                 SpawnPowerup();

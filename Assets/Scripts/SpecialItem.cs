@@ -14,8 +14,7 @@ public class SpecialItem : MonoBehaviour {
             // Destroy SpecialItem Container and pass the Item to the ship
             ShipController ship = (ShipController) collision.gameObject.GetComponent("ShipController");
             ship.setSpecialItem(itemName, item);
-            AudioSource audio = GetComponent<AudioSource>();
-            audio.Play();
+        
             Destroy(gameObject);
         }
     }

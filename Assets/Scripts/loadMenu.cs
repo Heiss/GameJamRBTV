@@ -14,7 +14,7 @@ public class loadMenu : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         GameObject go = GameObject.Find("GUIController");
-        if(go != null)
+        if(go != null && go.transform.parent == null)
         {
             Destroy(go);
         }

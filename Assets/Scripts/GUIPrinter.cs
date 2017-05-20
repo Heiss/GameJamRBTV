@@ -23,7 +23,7 @@ public class GUIPrinter : MonoBehaviour {
 	void FixedUpdate () {
         timer.text = "Zeit: " + System.Math.Round(Time.time - startTimer, 2) + "s\n" + "Punktzahl: \n\tRot:" + punktZahl1 + " : Blau: " + punktZahl2;
 
-        if(SceneManager.GetSceneByName("ShipScene").isLoaded && GameObject.Find("Ship") == null && GameObject.Find("Ship1") == null)
+        if(SceneManager.GetSceneByName("ShipScene").isLoaded && (GameObject.Find("Ship") == null || GameObject.Find("Ship1") == null))
         {
             DontDestroyOnLoad(this);
             SceneManager.LoadScene("Menu", LoadSceneMode.Single);
