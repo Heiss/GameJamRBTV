@@ -26,6 +26,12 @@ public class AsteroidDestroy : MonoBehaviour {
     // Spawnt die Kinder-Asteroiden
     void spawnChildAsteroids()
     {
+        // falls dies der Fall, dann ist es der kleinste Asteroid
+        if (childGO == null)
+        {
+            return;
+        }
+
         // eine explosion
         explode();
         // je nachdem wie viele Kinderasteroiden erstellt werden sollen
@@ -41,11 +47,24 @@ public class AsteroidDestroy : MonoBehaviour {
     {
         // erst erstellen, damit wir die Explosion auch sehen und verwenden können
         GameObject go = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+        go.transform.SetParent(GameObject.Find("Explosions").transform);
 
         // hier wird die Explosion abgespielt
-        ParticleSystem ps = explosionEffectPrefab.GetComponent<ParticleSystem>();
+        ParticleSystem ps = go.GetComponent<ParticleSystem>();
         ps.Play();
         // die Explosion wird zweimal ausgeführt. Daher die Hälfte.
         Destroy(go, ps.main.duration / 2);
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.name.StartsWith("Laser"))
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        } else if(collision.gameObject.name.StartsWith("Ship"))
+        {
+            Debug.Log("You dieded.");
+        }
     }
 }
