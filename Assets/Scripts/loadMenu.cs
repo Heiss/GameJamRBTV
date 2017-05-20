@@ -9,11 +9,14 @@ public class loadMenu : MonoBehaviour {
     void Start() {
         SceneManager.LoadScene("Asteriods", LoadSceneMode.Additive);
         SceneManager.LoadScene("Scene1", LoadSceneMode.Additive);
-
     }
-	
-	// Update is called once per frame
-	void Update () {
-        GameObject.Find("GUIController").GetComponent<GUIText>().enabled = false;
-	}
+
+    // Update is called once per frame
+    void Update () {
+        GameObject go = GameObject.Find("GUIController");
+        if(go != null)
+        {
+            Destroy(go);
+        }
+    }
 }
