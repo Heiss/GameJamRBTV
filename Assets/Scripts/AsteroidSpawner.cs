@@ -64,6 +64,7 @@ public class AsteroidSpawner : MonoBehaviour {
             return ray.GetPoint(distance * 0.9f);
         }
 
-        return origin;
+        // hier wird explizit nicht zero genommen, da sonst vllt der erste Spawn fehlschlägt. Daher der äußerste Rand für solche Bugs!
+        return new Vector3(area.size.x * 0.9f, 0, 0);
     }
 }

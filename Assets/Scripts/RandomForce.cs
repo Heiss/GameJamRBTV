@@ -29,7 +29,6 @@ public class RandomForce : MonoBehaviour
     // diese Funktion wird nur aufgerufen vom AsteroidSpawner um den Asteroiden in Richtung Center zu schicken.
     void ForceToCenter()
     {
-        Debug.Log("jap");
         float angle = Random.Range(-40f, 40f);
         Vector3 dir = (transform.position * -1).normalized;
         dir = Quaternion.Euler(0, angle, 0) * dir;
