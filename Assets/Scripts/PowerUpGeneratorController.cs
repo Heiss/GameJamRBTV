@@ -13,7 +13,7 @@ public class PowerUpGeneratorController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        Vector3 vec = GetComponent<BoxCollider>().size;
+        Vector3 vec = GameObject.Find("ControllerAsteroid").GetComponent<BoxCollider>().size;
         area = new Bounds(origin, vec);
     }
 
