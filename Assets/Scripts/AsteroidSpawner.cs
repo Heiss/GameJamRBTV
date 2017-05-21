@@ -13,7 +13,6 @@ public class AsteroidSpawner : MonoBehaviour {
     private Vector3 origin = Vector3.zero;
     private Bounds area, b;
 
-
     // Use this for initialization
     void Start () {
         Camera camera = Camera.main;
@@ -27,7 +26,7 @@ public class AsteroidSpawner : MonoBehaviour {
 
         if(GameObject.Find("MenuCanvas") != null)
         {
-            maxCountAsteroids = 10;
+            maxCountAsteroids = 5;
         }
             else
         {
