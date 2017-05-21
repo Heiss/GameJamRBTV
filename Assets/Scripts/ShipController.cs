@@ -13,6 +13,11 @@ public class ShipController : MonoBehaviour {
     public string specialItemName;
     public GameObject specialItem;
 
+
+    // INit for Pulse
+    private float initTime;
+    private SphereCollider sp;
+
     public string fire;
     public string spec;
     public string horizontal;
@@ -31,7 +36,12 @@ public class ShipController : MonoBehaviour {
     // Initialize ship
     void Start()
     {
+
+        initTime = 0f;
         nextFire += Time.time;
+
+        sp = gameObject.AddComponent<SphereCollider>() as SphereCollider;
+        sp.isTrigger = true;
 
         rb = GetComponent<Rigidbody>();
         tr = GetComponent<Transform>();
@@ -55,6 +65,13 @@ public class ShipController : MonoBehaviour {
 
     void Update()
     {
+        if (Time.fixedTime - initTime > 0.2)
+        {
+            if(sp != null)
+            {
+                sp.enabled = false;
+            }
+        }
         if (Input.GetButton(fire) && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
@@ -84,8 +101,45 @@ public class ShipController : MonoBehaviour {
                 this.LightJump();
             }
 
+            if (specialItemName == "Pulse")
+            {
+                Debug.Log("Pulse");
+                this.ActivatePulse();
+            }
+
         }
     }
+
+
+
+    void ActivatePulse()
+    {
+        initTime = Time.fixedTime;
+        sp.enabled = true;
+        sp.radius = 15;
+        sp.isTrigger = true;
+        Instantiate(specialItem, gameObject.transform.position, shotSpawn.rotation);
+
+        this.specialItemName = "";
+
+    }
+
+    // Pull everything to the core
+    void OnTriggerStay(Collider collision)
+    {
+        if(sp.enabled == true)
+        {
+            Vector3 center = gameObject.GetComponent<Transform>().position;
+            if ((collision.gameObject.name.StartsWith("Asteroid") || collision.gameObject.name.StartsWith("Ship")))
+            {
+                Vector3 collisionPosition = collision.gameObject.GetComponent<Transform>().position;
+                collision.gameObject.GetComponent<Rigidbody>().AddForce(5*(collisionPosition - center), ForceMode.Impulse);
+            }
+        }
+     
+    }
+
+
     void LightJump()
     {
         Instantiate(specialItem, gameObject.transform.position, shotSpawn.rotation);
