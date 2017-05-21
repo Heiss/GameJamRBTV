@@ -118,9 +118,10 @@ public class ShipController : MonoBehaviour {
         sp.enabled = true;
         sp.radius = 15;
         sp.isTrigger = true;
+        Debug.Log(specialItem);
+        this.specialItemName = "";
         Instantiate(specialItem, gameObject.transform.position, shotSpawn.rotation);
 
-        this.specialItemName = "";
 
     }
 
@@ -151,6 +152,7 @@ public class ShipController : MonoBehaviour {
 
     void PlantPlasmaBomb()
     {
+        Debug.Log(specialItem);
         Instantiate(specialItem, gameObject.transform.position , shotSpawn.rotation);
         this.specialItemName = "";
     }
@@ -214,8 +216,9 @@ public class ShipController : MonoBehaviour {
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.name.StartsWith("Asteroid"))
+        if (collision.gameObject.name.StartsWith("Asteroid") && !sp.enabled)
         {
+            
             // Destroy asteroid and the ship
             collision.gameObject.SendMessage("destroyMessage");
             this.destroyMessage();

@@ -48,7 +48,7 @@ public class PowerUpGeneratorController : MonoBehaviour {
         // Get a ramdom powerup
         int rand = Random.Range(0, capsules.Count);
         GameObject randomGO = capsules[rand];
-
+        Debug.Log(gameObject);
         // Spawn that shit
         GameObject go = Instantiate(randomGO, findSpawnPoint(), Quaternion.identity);
         go.transform.SetParent(gameObject.transform);
