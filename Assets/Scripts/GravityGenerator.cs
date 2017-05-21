@@ -18,7 +18,7 @@ public class GravityGenerator : MonoBehaviour {
         // Kill blast after a few seconds
         if (Time.fixedTime - initTime > 0.7)
         {
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -26,7 +26,7 @@ public class GravityGenerator : MonoBehaviour {
     void OnTriggerStay(Collider collision)
     {
         Vector3 center = gameObject.GetComponent<Transform>().position;
-        if ((Time.fixedTime - initTime > 0.5) && (collision.gameObject.name.StartsWith("Asteroid") || collision.gameObject.name.StartsWith("Ship")))
+        if ((Time.fixedTime - initTime > 0.3) && (collision.gameObject.name.StartsWith("Asteroid") || collision.gameObject.name.StartsWith("Ship")))
         {
             Vector3 collisionPosition = collision.GetComponent<Transform>().position;
             collision.GetComponent<Rigidbody>().AddForce(center-collisionPosition, ForceMode.Impulse);
