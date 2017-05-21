@@ -20,7 +20,6 @@ public class Menu : MonoBehaviour {
 
             points.text = go.GetComponent<GUIText>().text;
             go.GetComponent<GUIText>().enabled = false;
-            Destroy(go);
             gameOverOn();
         } else
         {
@@ -36,6 +35,12 @@ public class Menu : MonoBehaviour {
 
     public void ReturnOn()
     {
+        GameObject go = GameObject.Find("GUIController");
+        if(go != null)
+        {
+            Destroy(go);
+        }
+
         gameOverCanvas.enabled = false;
         menuCanvas.enabled = true;
     }

@@ -9,8 +9,8 @@ public class loadLevel : MonoBehaviour {
 	void Start () {
         SceneManager.LoadScene("Scene1", LoadSceneMode.Additive);
         SceneManager.LoadScene("Asteriods", LoadSceneMode.Additive);
-        SceneManager.LoadScene("ShipScene", LoadSceneMode.Additive);
         SceneManager.LoadScene("PowerUp", LoadSceneMode.Additive);
+        SceneManager.LoadScene("ShipScene", LoadSceneMode.Additive);
     }
 
     // Update is called once per frame

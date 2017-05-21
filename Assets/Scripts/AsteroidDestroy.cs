@@ -69,7 +69,7 @@ public class AsteroidDestroy : MonoBehaviour {
     {
         if (collision.gameObject.name.StartsWith("Laser"))
         {
-            AudioSource audio = GameObject.Find("ControllerAsteroid").GetComponent<AudioSource>();
+            AudioSource audio = GameObject.Find("ControllerAsteroid").GetComponents<AudioSource>()[0];
             audio.Play();
 
             int player = 1;

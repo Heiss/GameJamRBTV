@@ -7,13 +7,38 @@ public class AsteroidSpawner : MonoBehaviour {
     public List<GameObject> asteroidAssets;
 
     private Vector3 origin = Vector3.zero;
-    private Bounds area;
+    private Bounds area, b;
+    public int asteroidAreaOffset = 15;
 
     // Use this for initialization
     void Start () {
-        Vector3 vec = GetComponent<BoxCollider>().size;
+        Camera camera = Camera.main;
+        b = getCameraBounds(camera);
+
+        Debug.Log(camera.transform.position);
+        Debug.Log(b);
+
+        BoxCollider coll = GetComponent<BoxCollider>();
+        coll.size = new Vector3(b.size.x + asteroidAreaOffset, 10, b.size.y + asteroidAreaOffset);
+
+        Vector3 vec = coll.size;
         area = new Bounds(origin, vec);
-	}
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireCube(b.center, b.size);
+    }
+
+    private Bounds getCameraBounds(Camera camera)
+    {
+        float screenAspect = (float)Screen.width / (float)Screen.height;
+        float cameraHeight = camera.orthographicSize * 2;
+        Bounds bounds = new Bounds(
+            camera.transform.position,
+            new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
+        return bounds;
+    }
 	
 	// Update is called once per frame
 	void FixedUpdate () {

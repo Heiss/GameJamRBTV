@@ -25,23 +25,42 @@ public class ShipController : MonoBehaviour {
     // Store the boundary of the area
     private Bounds area;
 
-
     // Change fire rate (upgradey maybe)
     private float nextFire = 0.5F;
 
     // Initialize ship
     void Start()
     {
+        nextFire += Time.time;
+
         rb = GetComponent<Rigidbody>();
         tr = GetComponent<Transform>();
 
-        GameObject go = GameObject.Find("Background");
-        area = new Bounds(Vector3.zero, (new Vector3(go.transform.localScale.x, 100, go.transform.localScale.y)));
+        //GameObject go = GameObject.Find("Background");
+        //area = new Bounds(Vector3.zero, (new Vector3(go.transform.localScale.x, 100, go.transform.localScale.y)));
+        //BoxCollider coll = GameObject.Find("ControllerAsteroid").GetComponent<BoxCollider>();
+
+        Bounds b = getCameraBounds(Camera.main);
+        area = new Bounds(Vector3.zero, new Vector3(b.size.x, 10, b.size.y));
 
         // No Item attached
         specialItemName = "";
     }
 
+    private Bounds getCameraBounds(Camera camera)
+    {
+        float screenAspect = (float)Screen.width / (float)Screen.height;
+        float cameraHeight = camera.orthographicSize * 2;
+        Bounds bounds = new Bounds(
+            camera.transform.position,
+            new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
+        return bounds;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireCube(area.center, area.size);
+    }
 
     void Update()
     {
@@ -140,8 +159,8 @@ public class ShipController : MonoBehaviour {
         if (collision.gameObject.name.StartsWith("Asteroid"))
         {
             // Destroy asteroid and the ship
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            collision.gameObject.SendMessage("destroyMessage");
+            this.destroyMessage();
         }
     }
 
@@ -151,9 +170,18 @@ public class ShipController : MonoBehaviour {
         //AudioSource audio = GameObject.Find("ControllerAsteroid").GetComponents<AudioSource>()[1];
         //audio.Play();
 
-        explode();
+        //explode();
     }
 
+    public void destroyMessage()
+    {
+        // Destory Sound
+        AudioSource audio = GameObject.Find("GUIController").GetComponents<AudioSource>()[1];
+        audio.Play();
+
+        explode();
+        Destroy(gameObject);
+    }
 
     // Explode effect
     void explode()

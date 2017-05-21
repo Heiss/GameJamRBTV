@@ -21,7 +21,7 @@ public class GUIPrinter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        timer.text = "Zeit: " + System.Math.Round(Time.time - startTimer, 2) + "s\n\n" + "Punktzahl: \n\tRot:" + punktZahl1 + " : Blau: " + punktZahl2;
+        timer.text = "Zeit: " + System.Math.Round(Time.time - startTimer, 2) + "s\n\n" + "Abgeschossene Asteroiden\nSpieler1: " + punktZahl1 + " : Spieler2: " + punktZahl2;
 
         if(SceneManager.GetSceneByName("ShipScene").isLoaded && (GameObject.Find("Ship") == null || GameObject.Find("Ship1") == null))
         {
