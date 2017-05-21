@@ -21,18 +21,27 @@ public class GUIPrinter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        timer.text = "Zeit: " + System.Math.Round(Time.time - startTimer, 2) + "s\n" + "Punktzahl: \n\tRot:" + punktZahl1 + " : Blau: " + punktZahl2;
+        timer.text = "Zeit: " + System.Math.Round(Time.time - startTimer, 2) + "s\n\n" + "Punktzahl: \n\tRot:" + punktZahl1 + " : Blau: " + punktZahl2;
 
         if(SceneManager.GetSceneByName("ShipScene").isLoaded && (GameObject.Find("Ship") == null || GameObject.Find("Ship1") == null))
         {
+            timer.text += "\n\nGewinner: ";
+            if (GameObject.Find("Ship") == null)
+            {
+                timer.text += "Spieler2";
+            } else
+            {
+                timer.text += "Spieler1";
+            }
             DontDestroyOnLoad(this);
+
             SceneManager.LoadScene("Menu", LoadSceneMode.Single);
         }
     }
 
     void setPointsAndTimer(Text text)
     {
-        text.text = "Zeit: " + System.Math.Round(Time.time - startTimer, 2) + "s\n" + "Punktzahl: \n\tRot:" + punktZahl1 + " : Blau: " + punktZahl2;
+        text.text = "Zeit: " + System.Math.Round(Time.time - startTimer, 2) + "s\n" + "Punktzahl: \n\tRot: " + punktZahl1 + " : Blau: " + punktZahl2;
     }
 
     void increasePointsForPlayer(int player)
