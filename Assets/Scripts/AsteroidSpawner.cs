@@ -3,26 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AsteroidSpawner : MonoBehaviour {
-    public int maxCountAsteroids;
+    private int maxCountAsteroids = 10;
     public List<GameObject> asteroidAssets;
+
+    public int asteroidAreaOffset = 15;
+    public float timeForNextAstroid = 5;
+    private float timerSinceLastAstroid;
 
     private Vector3 origin = Vector3.zero;
     private Bounds area, b;
-    public int asteroidAreaOffset = 15;
+
 
     // Use this for initialization
     void Start () {
         Camera camera = Camera.main;
         b = getCameraBounds(camera);
-
-        Debug.Log(camera.transform.position);
-        Debug.Log(b);
-
+        
         BoxCollider coll = GetComponent<BoxCollider>();
         coll.size = new Vector3(b.size.x + asteroidAreaOffset, 10, b.size.y + asteroidAreaOffset);
 
         Vector3 vec = coll.size;
         area = new Bounds(origin, vec);
+
+        if(GameObject.Find("MenuCanvas") != null)
+        {
+            maxCountAsteroids = 10;
+        }
+            else
+        {
+            maxCountAsteroids = (int)((area.size.x * area.size.z) / (((75 * 75) / maxCountAsteroids)));
+            Debug.Log("Calculated Asteroid: " + maxCountAsteroids);
+
+        }
+
+        timerSinceLastAstroid = Time.time;
     }
 
     private void OnDrawGizmosSelected()
@@ -42,6 +56,13 @@ public class AsteroidSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+        if(GameObject.Find("MenuCanvas") == null && Time.time > timerSinceLastAstroid + timeForNextAstroid)
+        {
+            maxCountAsteroids++;
+            timerSinceLastAstroid = Time.time;
+            Debug.Log("Erhöht asteroid");
+        }
+
         // alle Asteroidenkinder überprüfen, ob sie in den Abmessungen sind.
 		for (int i = 0; i < transform.childCount; i++)
         {

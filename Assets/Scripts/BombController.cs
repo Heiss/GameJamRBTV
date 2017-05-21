@@ -26,13 +26,12 @@ public class BombController : MonoBehaviour {
             Destroy(gameObject);
         }
 	}
-
-
+    
     void OnTriggerStay(Collider collision)
     {
         if ((Time.fixedTime - initTime > 2) && (collision.gameObject.name.StartsWith("Asteroid") || collision.gameObject.name.StartsWith("Ship")))
         {
-            gameObject.SendMessage("destroyMessage");
+            //gameObject.SendMessage("destroyMessage");
             //Destroy(collision.gameObject);
             collision.SendMessage("destroyMessage");
         }

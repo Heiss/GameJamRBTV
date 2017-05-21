@@ -40,21 +40,12 @@ public class ShipController : MonoBehaviour {
         //area = new Bounds(Vector3.zero, (new Vector3(go.transform.localScale.x, 100, go.transform.localScale.y)));
         //BoxCollider coll = GameObject.Find("ControllerAsteroid").GetComponent<BoxCollider>();
 
-        Bounds b = getCameraBounds(Camera.main);
-        area = new Bounds(Vector3.zero, new Vector3(b.size.x, 10, b.size.y));
+        Vector3 vec = GameObject.Find("ControllerAsteroid").GetComponent<BoxCollider>().size;
+        Debug.Log(vec);
+        area = new Bounds(Vector3.zero, new Vector3(vec.x - 15, vec.y, vec.z - 15));
 
         // No Item attached
         specialItemName = "";
-    }
-
-    private Bounds getCameraBounds(Camera camera)
-    {
-        float screenAspect = (float)Screen.width / (float)Screen.height;
-        float cameraHeight = camera.orthographicSize * 2;
-        Bounds bounds = new Bounds(
-            camera.transform.position,
-            new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
-        return bounds;
     }
 
     private void OnDrawGizmosSelected()
