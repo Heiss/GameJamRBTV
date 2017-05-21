@@ -88,7 +88,20 @@ public class ShipController : MonoBehaviour {
                 this.PlantPlasmaBomb(); // BOOM!! =)
             }
 
+            if(specialItemName == "LightJump")
+            {
+                this.LightJump();
+            }
+
         }
+    }
+    void LightJump()
+    {
+        Instantiate(specialItem, gameObject.transform.position, shotSpawn.rotation);
+        this.specialItemName = "";
+
+        rb.AddRelativeForce(Vector3.forward * 800,ForceMode.Impulse);
+
     }
 
     void PlantPlasmaBomb()

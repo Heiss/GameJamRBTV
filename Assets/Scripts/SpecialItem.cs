@@ -9,8 +9,10 @@ public class SpecialItem : MonoBehaviour {
 
     void OnTriggerEnter(Collider collision)
     {
+        Debug.Log(collision.gameObject);
         if (collision.gameObject.name.StartsWith("Ship"))
         {
+           
             // Destroy SpecialItem Container and pass the Item to the ship
             ShipController ship = (ShipController) collision.gameObject.GetComponent("ShipController");
             ship.setSpecialItem(itemName, item);
