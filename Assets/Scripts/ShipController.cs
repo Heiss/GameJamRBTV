@@ -41,7 +41,6 @@ public class ShipController : MonoBehaviour {
         //BoxCollider coll = GameObject.Find("ControllerAsteroid").GetComponent<BoxCollider>();
 
         Vector3 vec = GameObject.Find("ControllerAsteroid").GetComponent<BoxCollider>().size;
-        Debug.Log(vec);
         area = new Bounds(Vector3.zero, new Vector3(vec.x - 15, vec.y, vec.z - 15));
 
         // No Item attached
