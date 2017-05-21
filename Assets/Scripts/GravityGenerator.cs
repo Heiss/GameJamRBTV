@@ -16,7 +16,7 @@ public class GravityGenerator : MonoBehaviour {
     void FixedUpdate()
     {
         // Kill blast after a few seconds
-        if (Time.fixedTime - initTime > 0.7)
+        if (Time.fixedTime - initTime > 1)
         {
             Destroy(gameObject);
         }
